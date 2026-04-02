@@ -48,6 +48,7 @@ fn string_process_output(output: Output) -> Result<String> {
     Ok(result_str)
 }
 
+// Returns true if sudo password is required, false otherwise
 pub fn check_sudo_password_required() -> bool {
     let output = Command::new("sudo")
         .arg("-n")
@@ -60,7 +61,7 @@ pub fn check_sudo_password_required() -> bool {
         }
         Err(e) => {
             log::error!("`sudo -n true`: {e}");
-            false
+            true
         }
     }
 }
