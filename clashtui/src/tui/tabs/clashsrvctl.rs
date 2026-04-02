@@ -6,7 +6,7 @@ use crate::{
         symbols::CLASHSRVCTL,
         tools,
         utils::Keys,
-        widgets::{List, MsgPopup},
+        widgets::{List, MsgPopup, PasswordPopup},
         EventState, Visibility,
     },
     utils::{SharedClashTuiState, SharedClashTuiUtil, check_sudo_password_required},
@@ -29,6 +29,7 @@ pub struct ClashSrvCtlTab {
 
     op: Option<ClashSrvOp>,
     encrypted_password: Option<String>,
+    password_input: ui::widgets::PasswordPopup,
 }
 
 impl ClashSrvCtlTab {
@@ -58,6 +59,7 @@ impl ClashSrvCtlTab {
             msgpopup: Default::default(),
             op: None,
             encrypted_password: None,
+            password_input: ui::widgets::PasswordPopup::new("Enter Password".to_string()),
         }
     }
 }
@@ -66,7 +68,7 @@ impl super::TabEvent for ClashSrvCtlTab {
         if !self.is_visible {
             return Ok(EventState::NotConsumed);
         }
-        let event_state;
+        let mut event_state;
         if self.mode_selector.is_visible() {
             event_state = self.mode_selector.event(ev)?;
             if event_state == EventState::WorkDone {
@@ -87,6 +89,14 @@ impl super::TabEvent for ClashSrvCtlTab {
         }
 
         event_state = self.msgpopup.event(ev)?;
+        if event_state == EventState::WorkDone {
+            return Ok(event_state);
+        }
+
+        event_state = self.password_input.event(ev)?;
+        if event_state == EventState::WorkDone {
+            return Ok(event_state);
+        }
 
         Ok(event_state)
     }
@@ -106,16 +116,20 @@ impl super::TabEvent for ClashSrvCtlTab {
                 match op {
                     ClashSrvOp::SwitchMode => self.mode_selector.show(),
                     ClashSrvOp::StartClashService | ClashSrvOp::StopClashService | ClashSrvOp::SetPermission  => {
-                        if check_sudo_password_required() {
-                            // TODO: Impl password widget to get user password
+                        let password_required = check_sudo_password_required();
+                        if password_required {
+                            // TODO: Impl password widget to get user 
+                            self.password_input.show();
                             self.encrypted_password = Some(String::from("123"));
                         }
                         else {
                             self.encrypted_password = None;
                         }
                         
-                        self.op.replace(op);
-                        self.popup_txt_msg("Working...".to_string());
+                        if ! password_required {
+                            self.op.replace(op);
+                            self.popup_txt_msg("Working...".to_string());
+                        }
                     }
                     _ => {
                         self.op.replace(op);
@@ -173,6 +187,8 @@ impl super::TabEvent for ClashSrvCtlTab {
         }
     }
     fn draw(&mut self, f: &mut ratatui::prelude::Frame, area: ratatui::prelude::Rect) {
+        use ratatui::prelude::{Constraint, Layout};
+
         if !self.is_visible() {
             return;
         }
@@ -184,6 +200,17 @@ impl super::TabEvent for ClashSrvCtlTab {
             self.mode_selector.draw(f, select_area, true);
         }
         self.msgpopup.draw(f, area);
+
+        let input_area = Layout::default()
+            .constraints([
+                Constraint::Percentage(25),
+                Constraint::Length(8),
+                Constraint::Min(0),
+            ])
+            .horizontal_margin(10)
+            .vertical_margin(1)
+            .split(f.size())[1];
+        self.password_input.draw(f, input_area, true);
     }
 }
 
