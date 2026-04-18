@@ -1,20 +1,19 @@
 # ClashTui
 
-![Demo](https://github.com/user-attachments/assets/7a35f4a7-e400-4e73-b2ec-0d68f287b99c)
+![演示](https://github.com/user-attachments/assets/7a35f4a7-e400-4e73-b2ec-0d68f287b99c)
 
-Language: [English](./README.md) | [中文](./README_ZH.md)
+语言: [English](./README.md) | [中文](./README_ZH.md)
 
 <details>
-<summary>Table of Contents</summary>
+<summary>目录</summary>
 <!-- vim-markdown-toc GFM -->
 
 * [支持的平台](#支持的平台)
-* [适用人群](#适用人群)
-* [Install](#install)
-* [Install](#install-1)
-* [ClashTUI Usage](#clashtui-usage)
-* [Uninstall](#uninstall)
-* [See more](#see-more)
+* [目标受众](#目标受众)
+* [安装](#安装)
+* [ClashTUI 使用](#clashtui-使用)
+* [卸载](#卸载)
+* [更多信息](#更多信息)
 * [尝试新东西](#尝试新东西)
 * [项目免责声明](#项目免责声明)
 
@@ -24,22 +23,22 @@ Language: [English](./README.md) | [中文](./README_ZH.md)
 ## 支持的平台
 
 -   Linux
--   Windows. 请转到 [Windows README](https://github.com/JohanChane/clashtui/blob/win/README_ZH.md)
+-   Windows (请查看 [Windows README](https://github.com/JohanChane/clashtui/blob/win/README_ZH.md))
 
-## 适用人群
+## 目标受众
 
--   对 clash 配置有一定了解。
--   喜欢 TUI 软件。
+-   对 Clash 配置有一定了解
+-   喜欢 TUI 软件
 
-## Install
+## 安装
 
-1. \[Optional\] 从仓库中安装 mihomo 和 clashtui:
+1. \[可选\] 从仓库中安装 mihomo 和 clashtui:
 
 ```sh
-sudo pacman -S mihomo clashtui  # e.g. ArchLinux
+sudo pacman -S mihomo clashtui  # ArchLinux
 ```
 
-这一步的目的是使用你的 $PATH 有 mihomo 和 clashtui, 安装脚本就会跳过它们的安装。你也可以手动下载它们, 然后校验: `which mihomo clashtui`
+这一步的目的是保证当前环境中包含 mihomo 和 clashtui，这样安装脚本会跳过安装它们的步骤。你也可以手动下载这两个工具，然后运行 `which mihomo clashtui` 来检查是否已正确配置。
 
 2. 运行安装脚本
 
@@ -47,9 +46,9 @@ sudo pacman -S mihomo clashtui  # e.g. ArchLinux
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/JohanChane/clashtui/refs/heads/main/install )"
 ```
 
-说明: 因为安装脚本的资源都是从 github 上下载的, 如果总是下载失败的话, 可以开启代理再运行脚本。
+提示：由于安装脚本使用的资源是从 GitHub 上下载的，所以如果总是下载失败，可以先开启代理再运行脚本。
 
-3. \[Optional\] 将 `clashtui_mihomo.service` 设置为开机启动
+3. \[可选\] 将 `clashtui_mihomo.service` 设置为开机启动
 
 ```sh
 sudo systemctl enable clashtui_mihomo.service
@@ -57,33 +56,25 @@ sudo systemctl enable clashtui_mihomo.service
 
 ---
 
-如果你想手动安装。请参考 [Install Manually](./Doc/install_clashtui_manually_zh.md)
+如果你想手动安装，请参考 [手动安装](./Doc/install_clashtui_manually_zh.md)
 
-## Install
+## ClashTUI 使用
 
-```sh
-# Optional. sudo pacman -S mihomo clashtui
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/JohanChane/clashtui/refs/heads/main/install)"
-# Optional. sudo systemctl enable clashtui_mihomo
-```
+查看 [clashtui_usage](./Doc/clashtui_usage.md)
 
-## ClashTUI Usage
-
-See [clashtui_usage](./Doc/clashtui_usage.md)
-
-## Uninstall
+## 卸载
 
 ```sh
 curl -o /tmp/install https://raw.githubusercontent.com/JohanChane/clashtui/refs/heads/main/install
 bash /tmp/install -u
 ```
-## See more
+## 更多信息
 
-[Doc](./Doc)
+[文档](./Doc)
 
 ## 尝试新东西
 
--   [clashtui v3](https://github.com/JohanChane/clashtui/tree/master)
+-   [dev](https://github.com/JohanChane/clashtui/tree/dev)
 -   [clashcli](https://github.com/JohanChane/clashtui/tree/aio)
 
 ## 项目免责声明
